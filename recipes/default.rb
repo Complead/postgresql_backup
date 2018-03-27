@@ -1,4 +1,4 @@
-include_recipe 'backup::default'
+include_recipe 'backup_lwrp::default'
 
 package "ruby-full"
 backup_install node.name
