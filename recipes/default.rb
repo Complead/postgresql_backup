@@ -24,6 +24,7 @@ backup_lwrp_generate_model node.name do
     }
   })
   options({
+    'cookbook' => 'backup_lwrp',
     'db.name' => "\"#{node['backup']['database']['name']}\"",
     'db.username' => "\"#{node['backup']['database']['username']}\"",
     'db.password' => "\"#{node['backup']['database']['password']}\"",
@@ -37,4 +38,8 @@ end
 major_version = node['backup']['major_version']
 execute 'update Backup version in config' do
   command "sed -i 's|Backup v4.x|Backup v#{major_version}.x|' /opt/backup/config.rb"
+end
+
+execute 'remove cookbook from model' do
+  command "sed -i '/cookbook/d' /opt/backup/models/#{node.name}.rb"
 end
