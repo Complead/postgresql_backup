@@ -1,12 +1,13 @@
 include_recipe 'backup_lwrp::default'
 
-package "ruby-full"
-backup_lwrp_install node.name
+# package "ruby-full"
+# backup_lwrp_install node.name
 backup_lwrp_generate_config node.name do
   cookbook 'backup_lwrp'
 end
 
 backup_lwrp_generate_model node.name do
+  gem_bin_dir node['backup']['gem_bin_dir']
   database_type "PostgreSQL"
   store_with({
     "engine" => "S3",
