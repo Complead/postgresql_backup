@@ -8,4 +8,4 @@ version          '0.1.0'
 
 supports 'ubuntu'
 
-depends 'backup'
+depends 'backup', '0.4.0'
