@@ -1,10 +1,10 @@
-include_recipe 'backup::default'
+include_recipe 'backup_lwrp::default'
 
 package "ruby-full"
-backup_install node.name
-backup_generate_config node.name
+backup_lwrp_install node.name
+backup_lwrp_generate_config node.name
 
-backup_generate_model node.name do
+backup_lwrp_generate_model node.name do
   database_type "PostgreSQL"
   store_with({
     "engine" => "S3",
