@@ -1,7 +1,10 @@
 include_recipe 'backup_lwrp::default'
 
-# package "ruby-full"
-# backup_lwrp_install node.name
+if node['backup']['gem_bin_dir'].nil?
+  package "ruby-full"
+  backup_lwrp_install node.name
+end
+
 backup_lwrp_generate_config node.name do
   cookbook 'backup_lwrp'
 end
@@ -21,7 +24,6 @@ backup_lwrp_generate_model node.name do
     }
   })
   options({
-    'cookbook' => 'backup_lwrp',
     'db.name' => "\"#{node['backup']['database']['name']}\"",
     'db.username' => "\"#{node['backup']['database']['username']}\"",
     'db.password' => "\"#{node['backup']['database']['password']}\"",
@@ -30,4 +32,9 @@ backup_lwrp_generate_model node.name do
   })
   hour '*'
   action :backup
+end
+
+major_version = node['backup']['major_version']
+execute 'update Backup version in config' do
+  command "sed -i 's|Backup v4.x|Backup v#{major_version}.x|' /opt/backup/config.rb"
 end
