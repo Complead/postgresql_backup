@@ -2,7 +2,9 @@ include_recipe 'backup_lwrp::default'
 
 package "ruby-full"
 backup_lwrp_install node.name
-backup_lwrp_generate_config node.name
+backup_lwrp_generate_config node.name do
+  cookbook 'backup_lwrp'
+end
 
 backup_lwrp_generate_model node.name do
   database_type "PostgreSQL"
@@ -18,6 +20,7 @@ backup_lwrp_generate_model node.name do
     }
   })
   options({
+    'cookbook' => 'backup_lwrp',
     'db.name' => "\"#{node['backup']['database']['name']}\"",
     'db.username' => "\"#{node['backup']['database']['username']}\"",
     'db.password' => "\"#{node['backup']['database']['password']}\"",
