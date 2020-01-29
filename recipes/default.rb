@@ -31,7 +31,8 @@ backup_lwrp_generate_model node.name do
     'db.additional_options' => "['-xc', '-E=utf8']",
     'db.host' => '"localhost"'
   })
-  hour '*'
+  hour node['backup']['schedule']['hour']
+  minute node['backup']['schedule']['minute']
   action :backup
 end
 
